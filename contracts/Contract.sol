@@ -121,4 +121,15 @@ contract Create {
        
    }
 
+   // Function that returns the number of all the voters
+   function getVoterLength() public view returns (uint256){
+      return votersAddress.length;
+   }
+
+   // Function that returns the number of voters that have actually voted
+   function getVoterLength() public view returns (uint256){
+      return votedVoters.length;
+   }
+
+  
 }
