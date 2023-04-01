@@ -51,7 +51,11 @@ contract Create {
         address voter_address;
         bool voted;
         uint256 voter_allowed;
+        uint vote;
     }
+
+   // Creating an address array for voters that have voted
+   address[] public votedVoters;
 
    // Creating an address array with all the addresses of each voter
     address[] public votersAddress;
@@ -80,6 +84,7 @@ contract Create {
       voter.voterID = _voterID;
       voter.voter_address = _voterAddress;
       voter.voted = _voted;
+      voter.vote = 1000;
 
       // pushing collected voters address to voteraddress array
       votersAddress.push(_voterAddress);
@@ -90,10 +95,30 @@ contract Create {
       _voterAddress,
       _voted,
       voter.voter_allowed
+      voter.vote
       )
 
    }
 
-   // Act 
+   // Function that actually does the voting process 
+   function vote(address _candidateAddress, unit256 _candidateVoteId) external {
+     // Creates a copy of the voter structure and grabs the address that executed the function
+      Voter storage voter = voters[msg.sender];
+
+    /*Checks*/
+    // Checking if the voter had already voted
+      require (!voter.voted, "You have already voted");
+      require(voter.voter_allowed !=0, "You have no right")
+
+      voter.voted = true;
+      voter.vote = _candidateVoteId;
+
+      // saving the address of the voter who called this function to vote in a voted address array
+      votedVoters.push(msg.sender);
+
+      // Adding to the candidates vote count
+      candidates[_candidateAddress].voteCount += voter.voter_allowed;
+       
+   }
 
 }
