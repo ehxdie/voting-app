@@ -1,12 +1,14 @@
 const hre = require("hardhat");
 
 async function main() {
-  
-  await lock.deployed();
+  // This is used to deploy the contract into the chain
+  const Create = await hre.ethers.getContractFactory("Create");
+  const create = await Create.deploy();
 
-  console.log(
-    
-  );
+  await create.deployed();
+
+  console.log("Lock with 1ETH deployed to:", create.address);
+
 }
 
 // We recommend this pattern to be able to use async/await everywhere
